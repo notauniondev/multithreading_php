@@ -1,9 +1,9 @@
 {
-    "name": "sidorkinalex/multiphp",
+    "name": "notauniondev/multiphp",
     "type": "library",
     "description": "multithreading in php by means of php-cli and Redis",
     "keywords": ["multithreading", "multithreading php", "cli", "php-cli"],
-    "homepage": "https://github.com/SidorkinAlex/multithreading_php",
+    "homepage": "https://github.com/notauniondev/multithreading_php",
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +14,7 @@
         }
     ],
     "require": {
-        "jeremeamia/superclosure": "^2.4",
+        "opis/closure": "^4.5",
         "php": ">=7.1"
     },
     "autoload": {

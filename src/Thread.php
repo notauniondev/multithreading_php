@@ -8,7 +8,7 @@
 
 namespace SidorkinAlex\Multiphp;
 
-use SuperClosure\Serializer;
+use function Opis\Closure\{serialize, unserialize};
 
 
 class Thread implements ThreadInterface
@@ -36,8 +36,7 @@ class Thread implements ThreadInterface
      */
     public function __construct($params = null, $function)
     {
-        $serializer = new Serializer();
-        $this->function = $serializer->serialize($function);
+        $this->function = serialize($function);
         $this->functionParams = $params;
         $this->id = Guidv4::create_guidv4();
     }
@@ -76,8 +75,9 @@ class Thread implements ThreadInterface
     protected function exec()
     {
         $this->pid = getmypid();
-        $serializer = new Serializer();
-        $function = $serializer->unserialize($this->function);
+
+        $function = unserialize($this->function);
+
         if ($this->functionParams !== null) {
             $result = $function($this->functionParams);
         } else {
@@ -123,7 +123,6 @@ class Thread implements ThreadInterface
     protected function saveToRedis(): string
     {
         $redis = $this->redisConnect();
-        $serializer = new Serializer();
         $par = serialize($this);
         $key = self::SAVE_BASE_NAME . $this->id;
         $redis->set($key, $par, self::$cache_timeout);
@@ -221,6 +220,9 @@ class Thread implements ThreadInterface
             if ($redis->get($key) == 'true') {
                 break;
             }
+
+            $i++;
+
             usleep($cyclicalSleepTime);
         }
     }
